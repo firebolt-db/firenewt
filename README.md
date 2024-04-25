@@ -18,7 +18,7 @@ Before running any benchmarks, ensure you have the following:
 Clone the repository to your local machine using:
 
 ```bash
-git clone https://github.com/yourusername/firebolt-benchmark-suite.git
+git clone https://github.com/<yourusername>/firebolt-benchmark-suite.git
 ```
 
 Navigate to the cloned directory:
