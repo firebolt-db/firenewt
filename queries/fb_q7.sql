@@ -1,0 +1,1 @@
+select destinationurl, sum(adrevenue) as adrevenues from uservisits WHERE searchword = 'w1d>' and countrycode = 'CAN' and visitdate BETWEEN '2035-09-08' AND '2035-11-04' and REGEXP_LIKE(destinationurl, '^COQP') group by destinationurl order by adrevenues DESC, destinationurl LIMIT 20000;

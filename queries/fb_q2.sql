@@ -1,0 +1,1 @@
+SELECT languagecode, MAX(visitdate) AS visitdate, ARRAY_JOIN(ARRAY_AGG(countrycode), ',') AS countrycode FROM uservisits WHERE sourceip = '118.113.25.140' GROUP BY languagecode;

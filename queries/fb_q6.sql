@@ -1,0 +1,1 @@
+SELECT searchword, useragent, languagecode from uservisits where countrycode = 'AUS' and visitdate = '2036-03-30' and searchword in ('xVK(mv)LPl','xV!^xYL`','xV>x=','xVV17qN','xVXEmwqiP7','xV_q&UV','xVW)g5<M') Limit 65;
