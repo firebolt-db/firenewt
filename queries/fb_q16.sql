@@ -98,4 +98,4 @@ order by adrevenue desc limit 3)) "f6"
 where
 searchword in ( select distinct word from searchwords_tab 
 where word_hash in (city_hash('u2X'))) 
-order by adrevenue desc limit 3)) "f7"
+order by adrevenue desc limit 3)) "f7";
