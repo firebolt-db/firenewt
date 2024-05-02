@@ -1,1 +1,8 @@
-SELECT visitdate, sourceip, adrevenue FROM uservisits WHERE (visitdate BETWEEN '2035-03-08' AND '2035-04-04') AND sourceip IN ('126.98.46.113') AND countrycode = 'IND';
+SELECT visitdate,
+       sourceip,
+       adrevenue
+FROM   uservisits
+WHERE  (visitdate between '2035-03-08'
+   and '2035-04-04')
+   and sourceip in ('126.98.46.113')
+   and countrycode = 'IND';
