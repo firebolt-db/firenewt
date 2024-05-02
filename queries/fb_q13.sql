@@ -1,10 +1,11 @@
-with busiest_days as ( 
-  select visitdate, count(*) 
-  from uservisits 
-  group by 1 
-  order by 2 desc limit 10 
-  ) 
-  select countrycode, avg(length(searchword)) 
-  from uservisits 
-  where visitdate in (select visitdate from busiest_days) 
-  group by countrycode;
+with busiest_days as (SELECT visitdate,
+                             count(*)
+                      FROM   uservisits
+                      GROUP BY 1
+                      ORDER BY 2 desc limit 10)
+SELECT countrycode,
+       avg(length(searchword))
+FROM   uservisits
+WHERE  visitdate in (SELECT visitdate
+                     FROM   busiest_days)
+GROUP BY countrycode;

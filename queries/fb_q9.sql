@@ -1,1 +1,3 @@
-SELECT COUNT(*) as c FROM uservisits WHERE sourceip = '123.143.30.99';
+SELECT count(*) as c
+FROM   uservisits
+WHERE  sourceip = '123.143.30.99';

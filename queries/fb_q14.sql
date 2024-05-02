@@ -1,1 +1,8 @@
-SELECT countrycode, languagecode, count(length(searchword)) FROM uservisits where destinationurl in ( select pageurl from rankings where rankings.pagerank = 9899 ) group by 1,2;
+SELECT countrycode,
+       languagecode,
+       count(length(searchword))
+FROM   uservisits
+WHERE  destinationurl in (SELECT pageurl
+                          FROM   rankings
+                          WHERE  rankings.pagerank = 9899)
+GROUP BY 1, 2;
