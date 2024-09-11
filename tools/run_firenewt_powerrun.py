@@ -55,8 +55,6 @@ def run_powerrun(query_history, client_id, client_secret, account_name, engine_n
     df_query_history = pd.DataFrame(results, columns=["sql_id", "duration"])
     print(df_query_history.to_markdown(index=False))
     print(f"Wall clock test duration: {wall_clock_time:.2f} seconds")
-    cursor.execute("set advanced_mode = 1")
-    cursor.execute("set only_allow_functions_enabled_for_fb2 = false")
     cursor.execute(f"""select 
                         round(SUM(duration_us/1000000.0),3) as total_duration,
   					    round(POW(2.718281828459045,(SUM(LN(duration_us/1000000.0)) / COUNT(*))),3) AS geometric_mean
