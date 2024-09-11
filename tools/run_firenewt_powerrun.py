@@ -59,7 +59,7 @@ def run_powerrun(query_history, client_id, client_secret, account_name, engine_n
     cursor.execute("set only_allow_functions_enabled_for_fb2 = false")
     cursor.execute(f"""select 
                         round(SUM(duration_us/1000000.0),3) as total_duration,
-  					    round(EXP(SUM(LN(duration_us/1000000.0)) / COUNT(*)),3) AS geometric_mean
+  					    round(POW(2.718281828459045,(SUM(LN(duration_us/1000000.0)) / COUNT(*))),3) AS geometric_mean
                 from information_schema.engine_query_history 
                 where 
   					JSON_EXTRACT(query_label, '/rid', 'JSONPointer') = '"{run_id}"'

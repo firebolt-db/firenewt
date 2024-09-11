@@ -1,0 +1,4 @@
+firebolt-sdk
+httpx
+pandas
+tabulate
