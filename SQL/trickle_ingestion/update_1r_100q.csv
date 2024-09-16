@@ -1,0 +1,1110 @@
+"query_start_ts","query_end_ts","query_id","query_text"
+"2024-09-17 00:00:00","2024-09-17 00:00:59","system_prep_1_drop_ext","DROP TABLE IF EXISTS external_update_1r_100q;"
+"2024-09-17 00:01:00","2024-09-17 00:01:59","system_prep_2_create_ext","CREATE EXTERNAL TABLE external_update_1r_100q (sourceip TEXT NOT NULL, destinationurl TEXT NOT NULL, visitdate PGDATE NOT NULL, adrevenue REAL NOT NULL, useragent TEXT NOT NULL, countrycode TEXT NOT NULL, languagecode TEXT NOT NULL, searchword TEXT NOT NULL, duration INTEGER NOT NULL) OBJECT_PATTERN = '*' TYPE = (PARQUET) URL = 's3://firebolt-benchmarks-requester-pays-{{region}}/firenewt/100gb/uservisits/' {{public_requester_pays_bucket_credentials}};"
+"2024-09-17 00:02:00","2024-09-17 00:02:59","system_prep_3_drop","DROP TABLE IF EXISTS update_1r_100q;"
+"2024-09-17 00:03:00","2024-09-17 00:03:59","system_prep_4_create","CREATE FACT TABLE update_1r_100q (sourceip TEXT NOT NULL, destinationurl TEXT NOT NULL, visitdate PGDATE NOT NULL, adrevenue REAL NOT NULL, useragent TEXT NOT NULL, countrycode TEXT NOT NULL, languagecode TEXT NOT NULL, searchword TEXT NOT NULL, duration INTEGER NOT NULL) PRIMARY INDEX visitdate, destinationurl, sourceip;"
+"2024-09-17 00:04:00","2024-09-17 00:04:59","system_prep_5_ingest","INSERT INTO update_1r_100q SELECT * FROM external_update_1r_100q;"
+"2024-09-17 00:05:00","2024-09-17 00:05:59","system_prep_6_vacuum","VACUUM update_1r_100q;"
+"2024-09-17 00:06:00","2024-09-17 00:06:59","system_prep_7_checksum","SELECT checksum(*) FROM update_1r_100q;"
+"2024-09-17 00:07:00","2024-09-17 00:07:59","update_1r_100q_1","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1992-09-13' AND destinationurl = 'utqnmglkwlvgwjsgaxfkycbnogthosu' AND sourceip = '15.77.7.131';"
+"2024-09-17 00:08:00","2024-09-17 00:08:59","update_1r_100q_2","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1993-01-20' AND destinationurl = 'lionnlwrucwkya' AND sourceip = '237.210.70.147';"
+"2024-09-17 00:09:00","2024-09-17 00:09:59","update_1r_100q_3","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1988-06-02' AND destinationurl = 'skrrbaptyoahmlupndkbenosbtundiiywrevvtumxdwuhywuaprlyefdgvtljemqdemenurwxcwhxdaha' AND sourceip = '8.222.162.202';"
+"2024-09-17 00:10:00","2024-09-17 00:10:59","update_1r_100q_4","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1977-01-24' AND destinationurl = 'xiyehkldfbefqllpcboasqqydgwpibimcnxrodlctisvjuetfiaghicivwipnjrdxuiuixn' AND sourceip = '8.218.104.117';"
+"2024-09-17 00:11:00","2024-09-17 00:11:59","update_1r_100q_5","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2004-09-18' AND destinationurl = 'ckhmtkvfufclpusyqgfsmjft' AND sourceip = '36.181.212.8';"
+"2024-09-17 00:12:00","2024-09-17 00:12:59","update_1r_100q_6","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1976-11-20' AND destinationurl = 'chsrxkviftqqidmeobfhculipwjdsg' AND sourceip = '97.8.204.143';"
+"2024-09-17 00:13:00","2024-09-17 00:13:59","update_1r_100q_7","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1996-03-07' AND destinationurl = 'guqovgoshhphmbgrggaaxddjrqeqmrmcgfxfajxxctrvjesoxn' AND sourceip = '70.1.93.173';"
+"2024-09-17 00:14:00","2024-09-17 00:14:59","update_1r_100q_8","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2005-03-23' AND destinationurl = 'pmpbklxnqwxkifcbnmlcecwdsmyinqaaexsdpjytowipx' AND sourceip = '24.183.51.204';"
+"2024-09-17 00:15:00","2024-09-17 00:15:59","update_1r_100q_9","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2004-08-18' AND destinationurl = 'mohpmsbydm' AND sourceip = '182.144.211.196';"
+"2024-09-17 00:16:00","2024-09-17 00:16:59","update_1r_100q_10","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2010-12-08' AND destinationurl = 'afhumysylwdaeteumdtdqmhycjapsqyehjtogfnwlbjnlqroadhd' AND sourceip = '113.18.74.253';"
+"2024-09-17 00:17:00","2024-09-17 00:17:59","update_1r_100q_11","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2004-05-09' AND destinationurl = 'eyphmcvipeejdqbyxmgcmwbebmvrxwhvr' AND sourceip = '68.158.24.146';"
+"2024-09-17 00:18:00","2024-09-17 00:18:59","update_1r_100q_12","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2011-03-27' AND destinationurl = 'mcufueifli' AND sourceip = '65.138.122.122';"
+"2024-09-17 00:19:00","2024-09-17 00:19:59","update_1r_100q_13","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1985-07-09' AND destinationurl = 'pmaqgrfiirqsbqvtisdwhtrwxdxooy' AND sourceip = '254.150.124.63';"
+"2024-09-17 00:20:00","2024-09-17 00:20:59","update_1r_100q_14","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1993-06-21' AND destinationurl = 'rsqsyiyarshvswksbenoxngdfrkvhelkdfteaexesmovcfeutsvdt' AND sourceip = '73.103.216.37';"
+"2024-09-17 00:21:00","2024-09-17 00:21:59","update_1r_100q_15","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2008-12-15' AND destinationurl = 'qnvapemdpyokm' AND sourceip = '245.202.123.96';"
+"2024-09-17 00:22:00","2024-09-17 00:22:59","update_1r_100q_16","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1972-11-25' AND destinationurl = 'kmrnhehyjvyjmbuqoceryxplaubiqqa' AND sourceip = '73.204.221.87';"
+"2024-09-17 00:23:00","2024-09-17 00:23:59","update_1r_100q_17","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2003-10-02' AND destinationurl = 'dhbrjciqmktkhohi' AND sourceip = '13.89.131.165';"
+"2024-09-17 00:24:00","2024-09-17 00:24:59","update_1r_100q_18","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1990-08-01' AND destinationurl = 'ftqhhjvosxrciwsupamtccdqwpxwkupaoxnkejtbhl' AND sourceip = '222.143.251.109';"
+"2024-09-17 00:25:00","2024-09-17 00:25:59","update_1r_100q_19","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1997-12-18' AND destinationurl = 'oxlubrqdyefnvaeqdfyouytltrsnbjcypthwcaeavqmdglyxqfvwfhmgpowdkgcua' AND sourceip = '165.138.219.79';"
+"2024-09-17 00:26:00","2024-09-17 00:26:59","update_1r_100q_20","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1991-09-09' AND destinationurl = 'gophcxamsljmnemfpcgcfmjehsrbtffyihybgorfqefqfqyvlcgvayoxrkkfdjypnmuafumg' AND sourceip = '211.13.97.7';"
+"2024-09-17 00:27:00","2024-09-17 00:27:59","update_1r_100q_21","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1981-10-27' AND destinationurl = 'chwnwtylhdyppwtqremxwvsyeusqcqbdcpyprqowkttapegvyglkfmdt' AND sourceip = '242.251.77.82';"
+"2024-09-17 00:28:00","2024-09-17 00:28:59","update_1r_100q_22","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1993-07-09' AND destinationurl = 'hljuorwenspwnioxndgsnufuuhyghariufgqdoxwjstgonssekrgefbskrobnonnlpfbleclmdpukmaaaafuu' AND sourceip = '198.131.47.95';"
+"2024-09-17 00:29:00","2024-09-17 00:29:59","update_1r_100q_23","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1989-04-13' AND destinationurl = 'eukiktsbpnubuhrojisgxo' AND sourceip = '214.56.161.148';"
+"2024-09-17 00:30:00","2024-09-17 00:30:59","update_1r_100q_24","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1999-12-27' AND destinationurl = 'euvyhrksqdonbkqwsovfdyseykriwfhsbvvxd' AND sourceip = '3.3.215.91';"
+"2024-09-17 00:31:00","2024-09-17 00:31:59","update_1r_100q_25","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1994-05-16' AND destinationurl = 'chdbewqkgrccaqmtrlrrpkcb' AND sourceip = '128.109.198.59';"
+"2024-09-17 00:32:00","2024-09-17 00:32:59","update_1r_100q_26","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2011-12-03' AND destinationurl = 'xxobshggdflgcmtygqocfppvmttctg' AND sourceip = '173.179.244.140';"
+"2024-09-17 00:33:00","2024-09-17 00:33:59","update_1r_100q_27","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1979-02-27' AND destinationurl = 'icavynkxahlrhwsiryhaafvjviyfxuiuqofsuxvhleuvndobkwtqsikqjfbvcmtiig' AND sourceip = '192.212.64.39';"
+"2024-09-17 00:34:00","2024-09-17 00:34:59","update_1r_100q_28","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2007-03-26' AND destinationurl = 'kjltwhpslpiwfiqtsupdhxgtkxkxtqima' AND sourceip = '193.23.148.151';"
+"2024-09-17 00:35:00","2024-09-17 00:35:59","update_1r_100q_29","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1980-02-07' AND destinationurl = 'kwmrqqgckoc' AND sourceip = '29.160.45.149';"
+"2024-09-17 00:36:00","2024-09-17 00:36:59","update_1r_100q_30","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1970-04-09' AND destinationurl = 'dsnjrgclpnsiejghmslqrqwfauqwxysajkdxwoouqjmfpuku' AND sourceip = '80.143.54.204';"
+"2024-09-17 00:37:00","2024-09-17 00:37:59","update_1r_100q_31","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2009-07-29' AND destinationurl = 'bwgjnyioghmdpghoufswtlrekbsugosfhfayvyaruycxuixupbdkdabqdrhjfgraoijsiyynh' AND sourceip = '231.155.147.198';"
+"2024-09-17 00:38:00","2024-09-17 00:38:59","update_1r_100q_32","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1979-10-24' AND destinationurl = 'dnavegsolqxtjfrgkfvtsdnfjxctauwqrwureredyppvjnvfsosnklyuenyaxucuydcrhyjmpave' AND sourceip = '197.173.9.31';"
+"2024-09-17 00:39:00","2024-09-17 00:39:59","update_1r_100q_33","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2001-12-29' AND destinationurl = 'apjnpobttnhgnrusocmqbxgyimkfs' AND sourceip = '154.102.170.118';"
+"2024-09-17 00:40:00","2024-09-17 00:40:59","update_1r_100q_34","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2002-01-06' AND destinationurl = 'lyldxflpedjytoethfejoldtum' AND sourceip = '254.245.169.68';"
+"2024-09-17 00:41:00","2024-09-17 00:41:59","update_1r_100q_35","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1989-07-31' AND destinationurl = 'njyaxabtpirfwmdqxfrudcchkpwoflhajtgdboppumkxfqfuwaavpkamtletekerrp' AND sourceip = '56.102.44.76';"
+"2024-09-17 00:42:00","2024-09-17 00:42:59","update_1r_100q_36","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1999-11-26' AND destinationurl = 'grihslrghvdfnchqlgrnsuxsmdpbsyr' AND sourceip = '61.228.11.204';"
+"2024-09-17 00:43:00","2024-09-17 00:43:59","update_1r_100q_37","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2001-06-02' AND destinationurl = 'gcsselgftikuxvexfrwbqtaapaywfmncblxielylsqpmrdiebgjxmdputddo' AND sourceip = '11.80.72.229';"
+"2024-09-17 00:44:00","2024-09-17 00:44:59","update_1r_100q_38","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1990-07-18' AND destinationurl = 'irccfkerskgvofogrvqlstupbqchdsvhlpuhb' AND sourceip = '242.11.166.197';"
+"2024-09-17 00:45:00","2024-09-17 00:45:59","update_1r_100q_39","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2003-03-14' AND destinationurl = 'wtbsadamhyaepmobk' AND sourceip = '236.153.45.63';"
+"2024-09-17 00:46:00","2024-09-17 00:46:59","update_1r_100q_40","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1981-01-29' AND destinationurl = 'jilxvbtxdrnwtydwsiyhwxjngoid' AND sourceip = '22.47.141.249';"
+"2024-09-17 00:47:00","2024-09-17 00:47:59","update_1r_100q_41","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1987-01-17' AND destinationurl = 'vdjjsceighmmbycjenurtdaqyoxqopvtcqnptdnouadgkwl' AND sourceip = '229.187.165.211';"
+"2024-09-17 00:48:00","2024-09-17 00:48:59","update_1r_100q_42","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2006-04-20' AND destinationurl = 'nicwlbsdttarokcbculerjcrpfipwaqqmhwpxgvvjhllsnbprxmujddjuiwyldrvutxslsxfys' AND sourceip = '17.114.82.210';"
+"2024-09-17 00:49:00","2024-09-17 00:49:59","update_1r_100q_43","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2007-12-13' AND destinationurl = 'qrijpwmyubehqn' AND sourceip = '137.219.24.237';"
+"2024-09-17 00:50:00","2024-09-17 00:50:59","update_1r_100q_44","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1974-07-14' AND destinationurl = 'pvnyjqtniasgikqkmbanwgcydrpo' AND sourceip = '20.189.232.59';"
+"2024-09-17 00:51:00","2024-09-17 00:51:59","update_1r_100q_45","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1982-02-15' AND destinationurl = 'ekgxysngcbgtilkwhpnlxusdnlrbeaktestuft' AND sourceip = '38.71.207.157';"
+"2024-09-17 00:52:00","2024-09-17 00:52:59","update_1r_100q_46","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1979-08-31' AND destinationurl = 'vaephachrsjrkpfgcgargyblahgpqcq' AND sourceip = '138.226.124.201';"
+"2024-09-17 00:53:00","2024-09-17 00:53:59","update_1r_100q_47","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2001-10-14' AND destinationurl = 'kjkxvpecpqfvvwhiikqgmgilqviorwgcuihfyswovlmvhliwhiejxhcolyvyp' AND sourceip = '148.121.26.143';"
+"2024-09-17 00:54:00","2024-09-17 00:54:59","update_1r_100q_48","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1986-09-17' AND destinationurl = 'wqqthmcdyuurvfqwrqeveboreuhfcafftqlepgcfoedwjpcejxy' AND sourceip = '74.226.96.230';"
+"2024-09-17 00:55:00","2024-09-17 00:55:59","update_1r_100q_49","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2005-04-25' AND destinationurl = 'kldpfoirbpnvjreprbkvssjtgormldlgrifjhjvcpvla' AND sourceip = '153.138.229.151';"
+"2024-09-17 00:56:00","2024-09-17 00:56:59","update_1r_100q_50","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1989-09-23' AND destinationurl = 'atcwhfwpsnjntqxv' AND sourceip = '60.84.12.154';"
+"2024-09-17 00:57:00","2024-09-17 00:57:59","update_1r_100q_51","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1980-02-17' AND destinationurl = 'keqiqqsrsguoitlvsofejaceldatfdcapebasxubdwsjtfodqhkvlstciyfivodwpifqudmeqlqnadfgcs' AND sourceip = '229.225.65.82';"
+"2024-09-17 00:58:00","2024-09-17 00:58:59","update_1r_100q_52","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1983-09-16' AND destinationurl = 'kdqptttbwuvephluckfluxwghljfhdmcbsjuvfdhoernavqwogtgvhqmitpbmi' AND sourceip = '217.78.106.83';"
+"2024-09-17 00:59:00","2024-09-17 00:59:59","update_1r_100q_53","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2002-09-25' AND destinationurl = 'wutylsivgmswsswfvncjmfckaxjvaiynsdrmeop' AND sourceip = '45.211.155.119';"
+"2024-09-17 01:00:00","2024-09-17 01:00:59","update_1r_100q_54","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1995-02-20' AND destinationurl = 'kfbbtbfejpuynpeqjjuydx' AND sourceip = '105.56.39.34';"
+"2024-09-17 01:01:00","2024-09-17 01:01:59","update_1r_100q_55","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1971-03-07' AND destinationurl = 'mbiiomnirrokftihaqvgnkbdtnyfyaxcpxxsaok' AND sourceip = '89.4.208.145';"
+"2024-09-17 01:02:00","2024-09-17 01:02:59","update_1r_100q_56","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1995-05-29' AND destinationurl = 'huivkjefgauntrbimwgjxbkmoyxvvpbukrmtqwwqcuountltblfvsbnxlbybpfpnhlaggvxklvpvnsurh' AND sourceip = '65.192.183.80';"
+"2024-09-17 01:03:00","2024-09-17 01:03:59","update_1r_100q_57","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2002-10-13' AND destinationurl = 'tkadvtafxmytikutdpijmkies' AND sourceip = '243.14.176.44';"
+"2024-09-17 01:04:00","2024-09-17 01:04:59","update_1r_100q_58","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2003-01-01' AND destinationurl = 'ymifyxbjmqxwtogabutvvnnypkreymldslghmsqqx' AND sourceip = '28.37.192.250';"
+"2024-09-17 01:05:00","2024-09-17 01:05:59","update_1r_100q_59","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2002-03-30' AND destinationurl = 'agaufarivqxvlyqjvfnke' AND sourceip = '17.130.117.192';"
+"2024-09-17 01:06:00","2024-09-17 01:06:59","update_1r_100q_60","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1970-11-24' AND destinationurl = 'qmlnmeufdhjfqcerbhpeft' AND sourceip = '94.249.38.221';"
+"2024-09-17 01:07:00","2024-09-17 01:07:59","update_1r_100q_61","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1977-02-25' AND destinationurl = 'wqoljthsqc' AND sourceip = '185.206.193.22';"
+"2024-09-17 01:08:00","2024-09-17 01:08:59","update_1r_100q_62","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1973-04-02' AND destinationurl = 'mlivcovvpcvd' AND sourceip = '206.218.10.143';"
+"2024-09-17 01:09:00","2024-09-17 01:09:59","update_1r_100q_63","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2004-03-28' AND destinationurl = 'ibrlgyittnyujghqbuqglfrircaxotr' AND sourceip = '187.94.177.172';"
+"2024-09-17 01:10:00","2024-09-17 01:10:59","update_1r_100q_64","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1989-12-16' AND destinationurl = 'wjktadryolnjvscgdppgnfsnrnfpsoheobcrmayrndkfbpeollewcni' AND sourceip = '122.206.125.180';"
+"2024-09-17 01:11:00","2024-09-17 01:11:59","update_1r_100q_65","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1970-06-14' AND destinationurl = 'oqumwjpubgxgxdpxipplffcqppdropbxlsecywgttuxvtovtaupptqbvmmifbhnsdmljspi' AND sourceip = '199.27.52.25';"
+"2024-09-17 01:12:00","2024-09-17 01:12:59","update_1r_100q_66","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1977-08-03' AND destinationurl = 'kkqvvyuoaxiqqe' AND sourceip = '137.145.216.131';"
+"2024-09-17 01:13:00","2024-09-17 01:13:59","update_1r_100q_67","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1974-12-24' AND destinationurl = 'cccmldmfdpddcedtvynqffogsfevcolmqlcrljfttrlmlfy' AND sourceip = '108.234.149.145';"
+"2024-09-17 01:14:00","2024-09-17 01:14:59","update_1r_100q_68","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1970-11-11' AND destinationurl = 'iynpmvjlicopropkoxdrqedvy' AND sourceip = '122.164.31.35';"
+"2024-09-17 01:15:00","2024-09-17 01:15:59","update_1r_100q_69","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1997-01-18' AND destinationurl = 'sfsmmjufvqlmtdyp' AND sourceip = '172.9.157.12';"
+"2024-09-17 01:16:00","2024-09-17 01:16:59","update_1r_100q_70","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1993-06-06' AND destinationurl = 'fqllctksklgowcqlajjhegrkylemhhmnftvwksatohwrciecvpapvqdbrxmyveapjejehkyklqxfpxgdyh' AND sourceip = '169.220.139.174';"
+"2024-09-17 01:17:00","2024-09-17 01:17:59","update_1r_100q_71","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1985-05-07' AND destinationurl = 'gcdkmmuualuslxronigqjhswrjsposiryggbskd' AND sourceip = '13.131.230.60';"
+"2024-09-17 01:18:00","2024-09-17 01:18:59","update_1r_100q_72","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1975-04-10' AND destinationurl = 'bqawjyclrboarscvsqqpfrkvtherycmgqngnmsxomqgdnehsnyeobtxpvnogbp' AND sourceip = '154.223.217.74';"
+"2024-09-17 01:19:00","2024-09-17 01:19:59","update_1r_100q_73","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1981-08-12' AND destinationurl = 'vdcxpcaskkgevpoewwmncbsuyvtuuk' AND sourceip = '26.180.146.35';"
+"2024-09-17 01:20:00","2024-09-17 01:20:59","update_1r_100q_74","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1983-09-23' AND destinationurl = 'fyxfmjuowexqnenytrhxkjanhgseqkwrtbsisgwehaayuctysrtpnmcmikquovmxyjomiuctbld' AND sourceip = '34.169.181.252';"
+"2024-09-17 01:21:00","2024-09-17 01:21:59","update_1r_100q_75","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1999-03-20' AND destinationurl = 'sfcsmnesajbgwcnanyu' AND sourceip = '55.141.121.12';"
+"2024-09-17 01:22:00","2024-09-17 01:22:59","update_1r_100q_76","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1982-03-22' AND destinationurl = 'eskbjeuoidxrrsxmcu' AND sourceip = '246.201.221.174';"
+"2024-09-17 01:23:00","2024-09-17 01:23:59","update_1r_100q_77","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1993-05-23' AND destinationurl = 'mrhqhtixfyixbjialsukupjsrqjorcjwvdaqtpxnrwjtvprelaiudyraymjraxwkvbbsuhwobfo' AND sourceip = '182.89.28.232';"
+"2024-09-17 01:24:00","2024-09-17 01:24:59","update_1r_100q_78","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1971-12-04' AND destinationurl = 'lyqnrpnncvyyshgahivnvkqpotdwekauvq' AND sourceip = '184.219.228.150';"
+"2024-09-17 01:25:00","2024-09-17 01:25:59","update_1r_100q_79","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1981-12-30' AND destinationurl = 'qltpipdslecusmnjfgdvebixiucjqalankkbpoxuqjqhj' AND sourceip = '50.193.94.25';"
+"2024-09-17 01:26:00","2024-09-17 01:26:59","update_1r_100q_80","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1971-06-05' AND destinationurl = 'ebwfvlkbpermwcocsfgyxmqfuxegaxgwsrkesfggcuqshqjbedlsocg' AND sourceip = '25.163.240.64';"
+"2024-09-17 01:27:00","2024-09-17 01:27:59","update_1r_100q_81","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1989-08-05' AND destinationurl = 'cgrtiklbtkgoungtrewsadwotcewvhvlvnaiblfcobek' AND sourceip = '14.79.154.200';"
+"2024-09-17 01:28:00","2024-09-17 01:28:59","update_1r_100q_82","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1992-04-12' AND destinationurl = 'felyasmeccopmnxacifqve' AND sourceip = '71.162.140.121';"
+"2024-09-17 01:29:00","2024-09-17 01:29:59","update_1r_100q_83","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2006-08-26' AND destinationurl = 'baqyifcnfjdmpomydwilxeenknjquiqgkvjvjcpsvcdclctkejugexvstlfbgsfklo' AND sourceip = '233.238.5.80';"
+"2024-09-17 01:30:00","2024-09-17 01:30:59","update_1r_100q_84","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1991-11-04' AND destinationurl = 'ppvebethioknoqxonxofhdqqqkjytfuavaqhsgtnajtlvcmeiorkhihhrbccm' AND sourceip = '195.226.103.6';"
+"2024-09-17 01:31:00","2024-09-17 01:31:59","update_1r_100q_85","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2005-06-22' AND destinationurl = 'kunemledkptertgvupqskflipefj' AND sourceip = '240.227.245.109';"
+"2024-09-17 01:32:00","2024-09-17 01:32:59","update_1r_100q_86","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1975-03-04' AND destinationurl = 'bsjptcmmsaornjaewgkdweasqikcoptkfsnyefnydsjwqqfpbphoihhrsawheeaibinsbdmcnlpkd' AND sourceip = '211.142.224.204';"
+"2024-09-17 01:33:00","2024-09-17 01:33:59","update_1r_100q_87","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1970-12-03' AND destinationurl = 'ayfxgyikggbjxybffmwgtgsvmihnlhfxaacdcnaeggalhejefeysjdoyigcsh' AND sourceip = '254.190.152.174';"
+"2024-09-17 01:34:00","2024-09-17 01:34:59","update_1r_100q_88","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2005-01-17' AND destinationurl = 'chlqeokmiclojpsyghodcixupqlhsjmw' AND sourceip = '124.41.177.2';"
+"2024-09-17 01:35:00","2024-09-17 01:35:59","update_1r_100q_89","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1979-12-11' AND destinationurl = 'utyqdleqaqxkawgagxlwgvwrssb' AND sourceip = '8.22.152.70';"
+"2024-09-17 01:36:00","2024-09-17 01:36:59","update_1r_100q_90","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1975-01-05' AND destinationurl = 'wfrejyjflsedhrwsilfjibaaceovapikisllvfmlgkjeotrtakhfvkpnwmqtgkpaodvib' AND sourceip = '252.36.56.150';"
+"2024-09-17 01:37:00","2024-09-17 01:37:59","update_1r_100q_91","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2003-10-31' AND destinationurl = 'jknfajvywitddpckutu' AND sourceip = '15.198.186.36';"
+"2024-09-17 01:38:00","2024-09-17 01:38:59","update_1r_100q_92","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1976-11-26' AND destinationurl = 'wulbyrefsuqphtxljkdevnedh' AND sourceip = '175.58.231.132';"
+"2024-09-17 01:39:00","2024-09-17 01:39:59","update_1r_100q_93","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1997-10-22' AND destinationurl = 'qengrwxyoqryxkyrtvipxhjkjqwx' AND sourceip = '156.8.68.217';"
+"2024-09-17 01:40:00","2024-09-17 01:40:59","update_1r_100q_94","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1996-12-21' AND destinationurl = 'vfxohrujlagisvphmrtmvhxnsmwdhshymnccdfjqlklykxbvrrnukukliqctflkinvqupwbrihu' AND sourceip = '79.243.225.163';"
+"2024-09-17 01:41:00","2024-09-17 01:41:59","update_1r_100q_95","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2003-04-09' AND destinationurl = 'syxviqiwgfhkev' AND sourceip = '48.151.125.29';"
+"2024-09-17 01:42:00","2024-09-17 01:42:59","update_1r_100q_96","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1989-02-25' AND destinationurl = 'matxjsgawdvjepnuaavrojwyecjgfwnequanyhwkqgylhw' AND sourceip = '80.84.162.107';"
+"2024-09-17 01:43:00","2024-09-17 01:43:59","update_1r_100q_97","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2006-08-11' AND destinationurl = 'gxdjafnkxpwangsnltloopwiseynignrxfhujust' AND sourceip = '245.23.145.213';"
+"2024-09-17 01:44:00","2024-09-17 01:44:59","update_1r_100q_98","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2005-11-26' AND destinationurl = 'kmqwjrqtivtuusorikapkscowlilrqjpmoyujmpcpyhpqrxaag' AND sourceip = '32.99.115.197';"
+"2024-09-17 01:45:00","2024-09-17 01:45:59","update_1r_100q_99","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '2003-05-02' AND destinationurl = 'csiuetcudlvqcsvwsinurkasqyivprgjdtkq' AND sourceip = '43.123.229.25';"
+"2024-09-17 01:46:00","2024-09-17 01:46:59","update_1r_100q_100","UPDATE update_1r_100q SET
+  sourceip = REGEXP_REPLACE(sourceip, '.[0-9]*$','.999'),
+  destinationurl = CONCAT(destinationurl, '_'),
+  visitdate = visitdate + 1,
+  adrevenue = adrevenue + 1,
+  useragent = CONCAT(useragent, '_'),
+  countrycode = CONCAT(countrycode, '_'),
+  languagecode = CONCAT(languagecode, '_'),
+  searchword = CONCAT(searchword, '_'),
+  duration = duration + 1
+WHERE visitdate = '1980-07-23' AND destinationurl = 'uogaiegvrujickpe' AND sourceip = '68.137.203.196';"
+"2024-09-17 01:47:00","2024-09-17 01:47:59","system_cleanup_1_drop_table","DROP TABLE IF EXISTS update_1r_100q;"
+"2024-09-17 01:48:00","2024-09-17 01:48:59","system_cleanup_2_drop_et","DROP TABLE IF EXISTS external_update_1r_100q;"
