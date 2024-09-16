@@ -13,9 +13,23 @@ import time
 
 import httpx
 
-def run_powerrun(query_history, client_id, client_secret, account_name, engine_name, database, api_endpoint, raw_http_query=False):
+
+def format_query_templates(query_history_df, region):
+    for index, row in query_history_df.iterrows():
+        query_text = row["query_text"]
+        if not region:
+            if "{{region}}" in query_text:
+                raise ValueError("This query history requires environment variable FB_REGION to be set.")
+        else:
+            query_text = query_text.replace("{{region}}", region)
+        query_history_df.at[index, "query_text"] = query_text
+
+
+def run_powerrun(query_history, client_id, client_secret, account_name, engine_name, database, api_endpoint, region,
+                 raw_http_query=False):
     df = pd.read_csv(query_history)
     df.sort_values("query_start_ts", inplace=True)
+    format_query_templates(df, region)
     connection = firebolt.db.connect(
         auth=ClientCredentials(
             client_id=client_id,
@@ -173,7 +187,8 @@ if __name__ == "__main__":
         engine_name=os.environ["FB_ENGINE"]
         database=os.environ["FB_DATABASE"]
         api_endpoint=os.environ.get("FB_API")
+        region=os.environ.get("FB_REGION").strip() if os.environ.get("FB_REGION") else None
         if api_endpoint is None:
             api_endpoint = "api.app.firebolt.io"
         run_powerrun(args.query_history, client_id, client_secret, account_name, engine_name, database, api_endpoint,
-                     raw_http_query=args.raw_http_queries)
+                     region=region, raw_http_query=args.raw_http_queries)
