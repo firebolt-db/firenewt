@@ -14,22 +14,35 @@ import time
 import httpx
 
 
-def format_query_templates(query_history_df, region):
+# As of Firebolt release 4.4, the following credential is required for engines to read from the Firebolt public buckets
+# that have the "requester pays" feature enabled.
+PUBLIC_REQUESTER_PAYS_BUCKET_CREDENTIALS = "CREDENTIALS = (AWS_ROLE_ARN = 'arn:aws:iam::442042532160:role/FireboltS3DatasetsAccess')"
+
+
+def format_query_templates(query_history_df, region, public_requester_pays_bucket_credentials_string=None):
     for index, row in query_history_df.iterrows():
         query_text = row["query_text"]
+
         if not region:
             if "{{region}}" in query_text:
                 raise ValueError("This query history requires environment variable FB_REGION to be set.")
         else:
             query_text = query_text.replace("{{region}}", region)
+
+        if not public_requester_pays_bucket_credentials_string:
+            public_requester_pays_bucket_credentials_string = PUBLIC_REQUESTER_PAYS_BUCKET_CREDENTIALS
+        query_text = query_text.replace("{{public_requester_pays_bucket_credentials}}",
+                                        public_requester_pays_bucket_credentials_string)
+
         query_history_df.at[index, "query_text"] = query_text
 
 
 def run_powerrun(query_history, client_id, client_secret, account_name, engine_name, database, api_endpoint, region,
-                 raw_http_query=False):
+                 public_requester_pays_bucket_credentials_string, raw_http_query=False):
     df = pd.read_csv(query_history)
     df.sort_values("query_start_ts", inplace=True)
-    format_query_templates(df, region)
+    format_query_templates(df, region=region,
+                           public_requester_pays_bucket_credentials_string=public_requester_pays_bucket_credentials_string)
     connection = firebolt.db.connect(
         auth=ClientCredentials(
             client_id=client_id,
@@ -188,7 +201,11 @@ if __name__ == "__main__":
         database=os.environ["FB_DATABASE"]
         api_endpoint=os.environ.get("FB_API")
         region=os.environ.get("FB_REGION").strip() if os.environ.get("FB_REGION") else None
+        credentials_env_var = os.environ.get("FB_PUBLIC_REQUESTER_PAYS_BUCKET_CREDENTIALS_STRING")
+        public_requester_pays_bucket_credentials_string = credentials_env_var.strip() if credentials_env_var else None
         if api_endpoint is None:
             api_endpoint = "api.app.firebolt.io"
         run_powerrun(args.query_history, client_id, client_secret, account_name, engine_name, database, api_endpoint,
-                     region=region, raw_http_query=args.raw_http_queries)
+                     region=region,
+                     public_requester_pays_bucket_credentials_string=public_requester_pays_bucket_credentials_string,
+                     raw_http_query=args.raw_http_queries)
