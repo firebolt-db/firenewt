@@ -1,0 +1,12 @@
+query_start_ts,query_end_ts,query_id,query_text
+2023-01-01 00:01:00,2023-01-01 00:01:59,system_prep_1,"DROP TABLE IF EXISTS copy_from_uservisits_modified_1tb_csv_gz;"
+2023-01-01 00:02:00,2023-01-01 00:02:59,system_prep_2,"CREATE FACT TABLE copy_from_uservisits_modified_1tb_csv_gz (sourceip text NOT NULL, destinationurl text NOT NULL, visitdate DATE NOT NULL, adrevenue real NOT NULL, useragent text NOT NULL, countrycode text NOT NULL, languagecode text NOT NULL, searchword text NOT NULL, duration integer NOT NULL) PRIMARY INDEX visitdate, destinationurl, sourceip;"
+2023-01-01 00:03:00,2023-01-01 00:29:59,ingest_copy_from_uservisits_modified_1tb_csv_gz,"COPY copy_from_uservisits_modified_1tb_csv_gz FROM 's3://firebolt-benchmarks-requester-pays-{{region}}/firenewt/bulk_ingest_scenarios/uservisits_modified_1tb/csv_gz/*' WITH HEADER=TRUE ALLOW_COLUMN_MISMATCH=FALSE {{public_requester_pays_bucket_credentials}};"
+2023-01-01 00:30:00,2023-01-01 00:30:59,system_cleanup,"DROP TABLE IF EXISTS copy_from_uservisits_modified_1tb_csv_gz;"
+
+
+
+
+
+
+
