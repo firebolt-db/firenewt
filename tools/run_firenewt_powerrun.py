@@ -1,9 +1,11 @@
 import argparse
 import base64
+from collections import OrderedDict
 import pandas as pd
 import json
 import firebolt.db
 from firebolt.client.auth import ClientCredentials
+import numpy as np
 import os
 import random
 import string
@@ -33,8 +35,9 @@ def run_powerrun(query_history, client_id, client_secret, account_name, engine_n
     characters = string.digits
     random_number = "".join(random.choice(characters) for _ in range(6))
     run_id = f'powerrun_{random_number}_{time.strftime("date_%Y_%m_%d_time_%H_%M_%S")}'
-    print(f" Run id is {run_id}")
+    print(f"Run id is {run_id}\n")
 
+    request_times = OrderedDict()
     with httpx.Client(timeout=httpx.Timeout(7200.0)) as client:
         for index, row in df.iterrows():                
             query_label_decoded = json.dumps({"rid": run_id, "sql_id": row["query_id"]})
@@ -44,12 +47,18 @@ def run_powerrun(query_history, client_id, client_secret, account_name, engine_n
                 engine_url = connection.engine_url + f"?advanced_mode=1&result_cache_max_bytes_item=0&database={database}&engine={engine_name}&query_label={query_label}"
                 t1 = time.time()
                 response = client.post(engine_url, data=row["query_text"], headers=headers)
+                t2 = time.time()
             else:
                 cursor.execute(f'set query_label={query_label}')
                 t1 = time.time()
                 # skip_parsing significantly speeds up the client side part of this query. This can greatly affect
                 # certain cases, such as INSERT queries with 1000 literal row VALUES.
                 cursor.execute(row["query_text"], skip_parsing=True)
+                t2 = time.time()
+            request_time = t2 - t1
+
+            if "system" not in row["query_id"]:
+                request_times[row["query_id"]] = request_time
 
             if start_time is None and "system" not in row["query_id"]:
                 start_time = t1
@@ -60,20 +69,21 @@ def run_powerrun(query_history, client_id, client_secret, account_name, engine_n
     time.sleep(10)
 
     sql = f"""\
-        WITH augmented_history as (
+        WITH modified_history as (
             select
             CASE WHEN query_label like 'b64-%' THEN
                 CONVERT_FROM(DECODE(regexp_extract(query_label, 'b64-(.*)', '', 1), 'BASE64'), 'utf8')
             ELSE
                 ''
             END as query_label_decoded,
-            *
+            DATE_DIFF('microsecond', submitted_time, end_time) as duration_us_2,
+            * exclude (query_label, duration_us)
             from information_schema.engine_query_history
         )
         select
             trim('"' from JSON_EXTRACT(query_label_decoded, '/sql_id', 'JSONPointer')) as sql_id,
-            round(duration_us/1000000.0,3) as "duration, s"
-        from augmented_history
+            duration_us_2/1000000.0 as "server duration, s"
+        from modified_history
         where
             JSON_EXTRACT(query_label_decoded, '/rid', 'JSONPointer') = '"{run_id}"'
             and JSON_EXTRACT(query_label_decoded, '/sql_id', 'JSONPointer') not like '"system%'
@@ -82,34 +92,47 @@ def run_powerrun(query_history, client_id, client_secret, account_name, engine_n
         order by start_time"""
     cursor.execute(sql)
     results = cursor.fetchall()
-    df_query_history = pd.DataFrame(results, columns=["sql_id", "duration"])
+
+    if len(results) == 0:
+        print("ERROR: No queries were executed successfully.")
+        cursor.close()
+        connection.close()
+        return
+
+    def round(x): return np.round(x, 3)
+
+    results_with_client_time = ((r[0], round(r[1]), round(request_times[r[0]])) for r in results)
+    df_query_history = pd.DataFrame(results_with_client_time, columns=["sql_id", "server duration, s", "client duration, s"])
+    print()
     print(df_query_history.to_markdown(index=False))
+    print()
+
     print(f"Wall clock test duration: {wall_clock_time:.2f} seconds")
-    sql = f"""
-        WITH augmented_history as (
-            select
-            CASE WHEN query_label like 'b64-%' THEN
-                CONVERT_FROM(DECODE(regexp_extract(query_label, 'b64-(.*)', '', 1), 'BASE64'), 'utf8')
-            ELSE
-                ''
-            END as query_label_decoded,
-            *
-            from information_schema.engine_query_history
-        )
-        select
-            round(SUM(duration_us/1000000.0),3) as total_duration,
-            round(POW(2.718281828459045,(SUM(LN(duration_us/1000000.0)) / COUNT(*))),3) AS geometric_mean
-        from augmented_history
-        where
-            JSON_EXTRACT(query_label_decoded, '/rid', 'JSONPointer') = '"{run_id}"'
-            and JSON_EXTRACT(query_label_decoded, '/sql_id', 'JSONPointer') not like '"system%'
-            and status = 'ENDED_SUCCESSFULLY'
-            and query_text not ilike 'select 1'
-        group by all"""
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    print(f"Total duration for all queries: {results[0][0]:.2f} seconds")
-    print(f"Geometric mean of query durations: {results[0][1]:.2f} seconds")
+
+    values = [result[1] for result in results]
+    server_sum = round(np.sum(values))
+    server_mean = round(np.mean(values))
+    server_geomean = round(np.exp(np.mean(np.log(values))))
+    server_median = round(np.median(values))
+    server_p95 = round(np.percentile(values, 95))
+
+    values = [request_times[sql_id] for sql_id in df_query_history["sql_id"] if "system" not in sql_id and "select 1" not in sql_id and sql_id in request_times]
+    client_sum = round(np.sum(values))
+    client_mean = round(np.mean(values))
+    client_geomean = round(np.exp(np.mean(np.log(values))))
+    client_median = round(np.median(values))
+    client_p95 = round(np.percentile(values, 95))
+
+    df_query_history = pd.DataFrame(results_with_client_time, columns=["", "server durations, s", "client durations, s"])
+    df_query_history.loc[1] = ["sum", server_sum, client_sum]
+    df_query_history.loc[2] = ["mean", server_mean, client_mean]
+    df_query_history.loc[3] = ["geometric mean", server_geomean, client_geomean]
+    df_query_history.loc[4] = ["median", server_median, client_median]
+    df_query_history.loc[5] = ["p95", server_p95, client_p95]
+
+    print()
+    print(df_query_history.to_markdown(index=False))
+
     cursor.close()
     connection.close()
 
