@@ -201,11 +201,10 @@ python run_firenewt_powerrun.py --query_history=../SQL/trickle_ingestion/insert_
 
 ## Repository Structure
 
-- **/queries/**: Contains all benchmark queries, organized by database type.
-- **/data/**: Includes scripts and links to datasets required for running benchmarks.
-- **/results/**: Stores example results and performance metrics.
-- **/scripts/**: Automation and utility scripts to facilitate benchmarking processes.
-- **/docs/**: Additional documentation on benchmark methodology and detailed guides.
+
+- **/data/**: Includes scripts that load from s3 or generate datasets required for running benchmarks.
+- **/tools/**: Automation and utility scripts to facilitate benchmarking processes.
+- **/SQL/**: Contains benchmark queries, organized by benchmark type.
 
 ## Contributing
 
