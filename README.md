@@ -20,13 +20,13 @@ Before running any benchmarks, ensure you have the following:
 Clone the repository to your local machine using:
 
 ```bash
-git clone https://github.com/<yourusername>/firebolt-benchmark-suite.git
+git clone https://github.com/firebolt-db/firenewt.git
 ```
 
 Navigate to the cloned directory:
 
 ```bash
-cd firebolt-benchmark-suite
+cd firenewt
 ```
 
 Install necessary dependencies:
