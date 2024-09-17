@@ -57,6 +57,8 @@ Create a Firebolt database and engine, create tables and load data for 1TB or 10
 #### Generate Data
 Create a Firebolt database and engine, create tables and load data for 1TB or 100GB dataset via `data/firenewt_1tb_data_generator.sql` or `data/ingest_100gb_s3.sql`. 
 
+Queries for new data sets can also be generated via `tools/generate_powerrun_queries.py` and `tools/generate_concurrency_queries.py`.
+
 ### Running Benchmarks
 
 #### General Benchmarking Information
@@ -92,7 +94,7 @@ export FB_REGION=...
 
 #### Running Concurrency Benchmarks
 
-To run a specific benchmark, download relevent query history scripts from `s3://firebolt-benchmarks-requester-pays-us-east-1/firenewt/1tb/sql/queries` folder and execute the
+To run a specific benchmark, download relevant query history scripts from `s3://firebolt-benchmarks-requester-pays-us-east-1/firenewt/1tb/sql/queries` folder and execute the
 corresponding script `tools/run_firenewt_concurrent_qps.py` with the desired concurrency level and the paths to the
 query history files as arguments.
 
