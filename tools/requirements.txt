@@ -1,4 +1,6 @@
 firebolt-sdk
 httpx
+numpy
 pandas
 tabulate
+trio
