@@ -182,6 +182,26 @@ cd tools
 python run_firenewt_powerrun.py --query_history=../SQL/bulk_ingestion/bi_1tb_snappy_parquet.csv
 ```
 
+Output:
+```bash
+Run id is powerrun_488852_date_2024_09_17_time_00_13_58
+
+
+| sql_id                                                  |   server duration, s |   client duration, s |
+|:--------------------------------------------------------|---------------------:|---------------------:|
+| ingest_copy_from_uservisits_modified_1tb_snappy_parquet |              446.086 |              446.166 |
+
+Wall clock test duration: 446.73 seconds
+
+|                |   server durations, s |   client durations, s |
+|:---------------|----------------------:|----------------------:|
+| sum            |               446.086 |               446.166 |
+| mean           |               446.086 |               446.166 |
+| geometric mean |               446.086 |               446.166 |
+| median         |               446.086 |               446.166 |
+| p95            |               446.086 |               446.166 |
+```
+
 #### Running the Trickle Ingestion / DML Benchmarks
 
 Similar to running bulk ingest scenarios, find the desired query history scenario CSV file in the 
@@ -210,6 +230,32 @@ export FB_REGION=us-east-1
 cd tools
 python run_firenewt_powerrun.py --query_history=../SQL/trickle_ingestion/insert_10r_100q.csv
 ```
+
+Output (trimmed for space):
+```bash
+Run id is powerrun_679071_date_2024_09_17_time_00_12_30
+
+
+| sql_id              |   server duration, s |   client duration, s |
+|:--------------------|---------------------:|---------------------:|
+| insert_10r_100q_1   |                0.174 |                0.299 |
+| insert_10r_100q_2   |                0.167 |                0.244 |
+... trimmed ...
+| insert_10r_100q_99  |                0.274 |                0.351 |
+| insert_10r_100q_100 |                0.229 |                0.306 |
+
+Wall clock test duration: 38.06 seconds
+
+|                |   server durations, s |   client durations, s |
+|:---------------|----------------------:|----------------------:|
+| sum            |                21.007 |                28.782 |
+| mean           |                 0.21  |                 0.288 |
+| geometric mean |                 0.206 |                 0.285 |
+| median         |                 0.204 |                 0.282 |
+| p95            |                 0.32  |                 0.396 |
+
+```
+
 
 ## Repository Structure
 
