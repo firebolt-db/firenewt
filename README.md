@@ -50,9 +50,44 @@ pip install -r requirements.txt
 
 ### Running Benchmarks
 
-To run a specific benchmark, navigate to its directory under the `/queries` folder and execute the corresponding script. For example:
+#### General Benchmarking Information
 
-1 cluster 1 node type L engine high QPS benchmark
+Scripts typically require that most environment variables that follow are set to the appropriate value.
+
+As mentioned before, the benchmarker requires a Firebolt service account and associated user.
+The benchmarker authenticates with the API using the service account ID and secret, provided as environment variables:
+```bash
+export FB_CLIENT_ID=...
+export FB_CLIENT_SECRET=...
+```
+
+The following environment variables are required to specify the Firebolt engine, database, and the account they are in
+(not to be confused with a "service account", which is a different concept used for authentication), by name:
+```bash 
+export FB_ACCOUNT=...
+export FB_ENGINE=...
+export FB_DATABASE=...
+```
+
+The API is specified using the following environment variable, which should likely always be the value shown:
+```bash
+export FB_API=api.app.firebolt.io
+```
+
+Scripts that access data in Firebolt public S3 buckets, e.g. to ingest the base tables, require the following
+environment variable be set to the name of the Firebolt AWS region the engine is running in so that the correct regional
+bucket is used, e.g. `us-east-1`:
+```bash
+export FB_REGION=...
+```
+
+#### Running Concurrency Benchmarks
+
+To run a specific benchmark, locate a relevent query history script in `SQL/queries` folder and execute the
+corresponding script `tools/run_firenewt_concurrent_qps.py` with the desired concurrency level and the paths to the
+query history files as arguments.
+
+**1 cluster 1 node type L engine high QPS benchmark**
 ```bash 
 export FB_CLIENT_ID=...
 export FB_CLIENT_SECRET=...
@@ -65,7 +100,7 @@ cd tools
 python run_firenewt_concurrent_qps.py --concurrency 200 ../SQL/queries/firenewt_1tb_qps_0.csv ../SQL/queries/firenewt_1tb_qps_1.csv ../SQL/queries/firenewt_1tb_qps_2.csv ../SQL/queries/firenewt_1tb_qps_3.csv
 ```
 
-10 clusters 1 type L engine high QPS benchmark
+**10 clusters 1 type L engine high QPS benchmark**
 ```bash 
 export FB_CLIENT_ID=...
 export FB_CLIENT_SECRET=...
@@ -78,6 +113,9 @@ cd tools
 python run_firenewt_concurrent_qps.py --concurrency 400 ../SQL/queries/firenewt_1tb_qps_0.csv ../SQL/queries/firenewt_1tb_qps_0.csv ../SQL/queries/firenewt_1tb_qps_1.csv ../SQL/queries/firenewt_1tb_qps_2.csv ../SQL/queries/firenewt_1tb_qps_3.csv ../SQL/queries/firenewt_1tb_qps_4.csv ../SQL/queries/firenewt_1tb_qps_5.csv ../SQL/queries/firenewt_1tb_qps_6.csv ../SQL/queries/firenewt_1tb_qps_7.csv ../SQL/queries/firenewt_1tb_qps_8.csv ../SQL/queries/firenewt_1tb_qps_9.csv ../SQL/queries/firenewt_1tb_qps_10.csv ../SQL/queries/firenewt_1tb_qps_11.csv ../SQL/queries/firenewt_1tb_qps_12.csv ../SQL/queries/firenewt_1tb_qps_13.csv ../SQL/queries/firenewt_1tb_qps_14.csv ../SQL/queries/firenewt_1tb_qps_15.csv ../SQL/queries/firenewt_1tb_qps_16.csv ../SQL/queries/firenewt_1tb_qps_17.csv ../SQL/queries/firenewt_1tb_qps_18.csv ../SQL/queries/firenewt_1tb_qps_19.csv
 ```
 
+#### Running the Power Run Benchmark
+
+The default parameters for `tools/run_firenewt_powerrun.py` will run the appropriate queries against the specified engine.
 
 ```bash 
 export FB_CLIENT_ID=...
@@ -112,6 +150,65 @@ Run id is powerrun_950516_date_2024_09_10_time_15_08_09
 Wall clock test duration: 11.09 seconds
 Total duration for all queries: 4.29 seconds
 Geometric mean of query durations: 0.11 seconds
+```
+
+#### Running the Bulk Ingest Benchmarks
+
+Find the desired query history scenario CSV file in the `SQL/bulk_ingestion` folder. Each of the three scenarios runs a
+`COPY FROM` query against a set of files of the specified file format that exist in a Firebolt public S3 bucket. Each
+of the `bi_1b_*.csv` files is a different scenario loading the same underlying 1 TB of data, but with different file
+formats.
+
+To test different engine configurations, you will need to configure the engine externally, e.g. by issuing SQL commands
+from the Firebolt web UI.
+
+You will need to specify the `FB_REGION` environment variable with the same region the engine is running in,
+e.g. `us-east-1`, so that the COPY FROM commands target the correct regional bucket.
+
+The query history scenarios can be run with the same command used for power runs, `run_firenewt_powerrun.py`, which is
+basically a tool that issues queries from the history CSV files sequentially and gathers statistics.
+
+For example:
+```bash
+export FB_CLIENT_ID=...
+export FB_CLIENT_SECRET=...
+export FB_ACCOUNT=...
+export FB_ENGINE=...
+export FB_DATABASE=...
+export FB_API=api.app.firebolt.io
+export FB_REGION=us-east-1
+
+cd tools
+python run_firenewt_powerrun.py --query_history=../SQL/bulk_ingestion/bi_1tb_snappy_parquet.csv
+```
+
+#### Running the Trickle Ingestion / DML Benchmarks
+
+Similar to running bulk ingest scenarios, find the desired query history scenario CSV file in the 
+`SQL/trickle_ingestion` folder. There are various scenarios for INSERT, UPDATE, and DELETE operations. Each scenario
+repeats the same type and size of DML operation 100 times, with different data for each. E.g., the scenario
+`insert_10r_100q.csv` issues 100 distinct INSERT queries, each inserting 10 rows into a table. The UPDATE and DELETE
+scenarios like `delete_1r_100q.csv` each issue 100 distinct queries that update or delete 1 row each from the table.
+
+You will need to specify the `FB_REGION` environment variable with the same region the engine is running in,
+e.g. `us-east-1`, so that the COPY FROM commands target the correct regional bucket when ingesting a fresh copy of
+the base table.
+
+Again, use the power run script, `run_firenewt_powerrun.py`, to run the DML scenarios from the query history CSV files
+and collect statistics.
+
+For example:
+```bash
+export FB_CLIENT_ID=...
+export FB_CLIENT_SECRET=...
+export FB_ACCOUNT=...
+export FB_ENGINE=...
+export FB_DATABASE=...
+export FB_API=api.app.firebolt.io
+export FB_REGION=us-east-1
+
+cd tools
+python run_firenewt_powerrun.py --query_history=../SQL/trickle_ingestion/insert_10r_100q.csv
 ```
 
 ## Repository Structure
