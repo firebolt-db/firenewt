@@ -52,7 +52,7 @@ pip install -r requirements.txt
 Data are available on s3 but also can be generated via sql scripts.
 
 #### Load Data from S3
-Create a Firebolt database and engine, create tables and load data for 1TB or 100GB dataset via `data/ingest_1tb_s3.sql` or `data/ingest_100gb_s3.sql`.
+Create a Firebolt database and engine, create tables and load data for 1TB or 100GB dataset via `data/ingest_1tb_s3.sql` or `data/ingest_100gb_s3.sql`. The scripts are for us-east-1 region s3 bucket, change the s3 bucket name in case the database is in another region.
 
 #### Generate Data
 Create a Firebolt database and engine, create tables and load data for 1TB or 100GB dataset via `data/firenewt_1tb_data_generator.sql` or `data/ingest_100gb_s3.sql`. 
