@@ -15,6 +15,18 @@ Before running any benchmarks, ensure you have the following:
 - Git (for cloning the repository)
 - Appropriate database management system (e.g., Firebolt, PostgreSQL) is configured
 
+#### Firebolt Prerequisites
+
+Specifically for Firebolt, you will need to have the following:
+
+- A Firebolt service account. You will need to provide the service account ID and secret to the benchmarking scripts for them to connect to and authenticate with the Firebolt API.
+  See the relevent [documentation](https://docs.firebolt.io/Guides/managing-your-organization/service-accounts.html) for more information about service accounts.
+- A Firebolt user associated with the service account, to assign the appropriate roles to access Firebolt resources such as databases and engines.
+  See the relevent [documentation](https://docs.firebolt.io/Guides/managing-your-organization/managing-users.html) for more information about users.
+- A Firebolt database that the user has read and write access to.
+- A Firebolt engine that the user can use. To test various engine configurations, you will either need existing engines with those configurations, or the ability to create or modify engines and operate them.
+  See the relevent [documentation](https://docs.firebolt.io/Guides/operate-engines/operate-engines.html) for more information about engines.
+
 ### Installation
 
 Clone the repository to your local machine using:
