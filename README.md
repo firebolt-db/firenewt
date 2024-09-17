@@ -259,12 +259,10 @@ Wall clock test duration: 38.06 seconds
 
 ## Repository Structure
 
-- **/queries/**: Contains all benchmark queries, organized by database type.
+- **/SQL/**: Contains all benchmark queries, organized by database type.
 - **/data/**: Includes scripts and links to datasets required for running benchmarks.
-- **/results/**: Stores example results and performance metrics.
-- **/scripts/**: Automation and utility scripts to facilitate benchmarking processes.
-- **/docs/**: Additional documentation on benchmark methodology and detailed guides.
-
+- **/tools/**: Automation and utility scripts to facilitate benchmarking processes.
+  
 ## Contributing
 
 
