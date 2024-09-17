@@ -178,7 +178,7 @@ if __name__ == "__main__":
         "--query_history",
         type=str,
         help="Optional path to query history file",
-        default="../SQL/queries/firenewt_1tb_powerrun.csv",
+        default="../SQL/powerrun/firenewt_1tb_powerrun.csv",
     )
     parser.add_argument(
         "--raw-http-queries",

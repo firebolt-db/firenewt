@@ -47,6 +47,17 @@ cd ./tools
 pip install -r requirements.txt
 ```
 
+### Creating a database
+
+Data are available on s3 but also can be generated via sql scripts.
+
+#### Load Data from S3
+Create a Firebolt database and engine, create tables and load data for 1TB or 100GB dataset via `data/ingest_1tb_s3.sql` or `data/ingest_100gb_s3.sql`. The scripts are for us-east-1 region s3 bucket, change the s3 bucket name in case the database is in another region.
+
+#### Generate Data
+Create a Firebolt database and engine, create tables and load data for 1TB or 100GB dataset via `data/firenewt_1tb_data_generator.sql` or `data/ingest_100gb_s3.sql`. 
+
+Queries for new data sets can also be generated via `tools/generate_powerrun_queries.py` and `tools/generate_concurrency_queries.py`.
 
 ### Running Benchmarks
 
@@ -83,7 +94,7 @@ export FB_REGION=...
 
 #### Running Concurrency Benchmarks
 
-To run a specific benchmark, locate a relevent query history script in `SQL/queries` folder and execute the
+To run a specific benchmark, download relevant query history scripts from `s3://firebolt-benchmarks-requester-pays-us-east-1/firenewt/1tb/sql/queries` folder and execute the
 corresponding script `tools/run_firenewt_concurrent_qps.py` with the desired concurrency level and the paths to the
 query history files as arguments.
 
@@ -97,7 +108,7 @@ export FB_DATABASE=...
 export FB_API=api.app.firebolt.io
 
 cd tools
-python run_firenewt_concurrent_qps.py --concurrency 200 ../SQL/queries/firenewt_1tb_qps_0.csv ../SQL/queries/firenewt_1tb_qps_1.csv ../SQL/queries/firenewt_1tb_qps_2.csv ../SQL/queries/firenewt_1tb_qps_3.csv
+python run_firenewt_concurrent_qps.py --concurrency 200 firenewt_1tb_qps_0.csv firenewt_1tb_qps_1.csv firenewt_1tb_qps_2.csv firenewt_1tb_qps_3.csv                     
 ```
 
 **10 clusters 1 type L engine high QPS benchmark**
@@ -110,7 +121,7 @@ export FB_DATABASE=...
 export FB_API=api.app.firebolt.io
 
 cd tools
-python run_firenewt_concurrent_qps.py --concurrency 400 ../SQL/queries/firenewt_1tb_qps_0.csv ../SQL/queries/firenewt_1tb_qps_0.csv ../SQL/queries/firenewt_1tb_qps_1.csv ../SQL/queries/firenewt_1tb_qps_2.csv ../SQL/queries/firenewt_1tb_qps_3.csv ../SQL/queries/firenewt_1tb_qps_4.csv ../SQL/queries/firenewt_1tb_qps_5.csv ../SQL/queries/firenewt_1tb_qps_6.csv ../SQL/queries/firenewt_1tb_qps_7.csv ../SQL/queries/firenewt_1tb_qps_8.csv ../SQL/queries/firenewt_1tb_qps_9.csv ../SQL/queries/firenewt_1tb_qps_10.csv ../SQL/queries/firenewt_1tb_qps_11.csv ../SQL/queries/firenewt_1tb_qps_12.csv ../SQL/queries/firenewt_1tb_qps_13.csv ../SQL/queries/firenewt_1tb_qps_14.csv ../SQL/queries/firenewt_1tb_qps_15.csv ../SQL/queries/firenewt_1tb_qps_16.csv ../SQL/queries/firenewt_1tb_qps_17.csv ../SQL/queries/firenewt_1tb_qps_18.csv ../SQL/queries/firenewt_1tb_qps_19.csv
+python run_firenewt_concurrent_qps.py --concurrency 400 firenewt_1tb_qps_0.csv firenewt_1tb_qps_0.csv firenewt_1tb_qps_1.csv firenewt_1tb_qps_2.csv firenewt_1tb_qps_3.csv firenewt_1tb_qps_4.csv firenewt_1tb_qps_5.csv firenewt_1tb_qps_6.csv firenewt_1tb_qps_7.csv firenewt_1tb_qps_8.csv firenewt_1tb_qps_9.csv firenewt_1tb_qps_10.csv firenewt_1tb_qps_11.csv firenewt_1tb_qps_12.csv firenewt_1tb_qps_13.csv firenewt_1tb_qps_14.csv firenewt_1tb_qps_15.csv firenewt_1tb_qps_16.csv firenewt_1tb_qps_17.csv firenewt_1tb_qps_18.csv firenewt_1tb_qps_19.csv
 ```
 
 #### Running the Power Run Benchmark
@@ -127,29 +138,6 @@ export FB_API=api.app.firebolt.io
 
 cd tools
 python run_firenewt_powerrun.py
-
-Run id is powerrun_950516_date_2024_09_10_time_15_08_09
-| sql_id   |   duration |
-|:---------|-----------:|
-| app_q1   |      0.076 |
-| app_q2   |      0.108 |
-| app_q3   |      0.051 |
-| app_q4   |      0.036 |
-| app_q5   |      0.063 |
-| app_q6   |      0.033 |
-| app_q7   |      0.057 |
-| app_q8   |      0.047 |
-| app_q9   |      0.22  |
-| app_q10  |      1.774 |
-| app_q11  |      0.051 |
-| app_q12  |      0.098 |
-| app_q13  |      0.773 |
-| app_q15  |      0.049 |
-| app_q16  |      0.058 |
-| app_q22  |      0.795 |
-Wall clock test duration: 11.09 seconds
-Total duration for all queries: 4.29 seconds
-Geometric mean of query durations: 0.11 seconds
 ```
 
 #### Running the Bulk Ingest Benchmarks
@@ -259,11 +247,10 @@ Wall clock test duration: 38.06 seconds
 
 ## Repository Structure
 
-- **/queries/**: Contains all benchmark queries, organized by database type.
-- **/data/**: Includes scripts and links to datasets required for running benchmarks.
-- **/results/**: Stores example results and performance metrics.
-- **/scripts/**: Automation and utility scripts to facilitate benchmarking processes.
-- **/docs/**: Additional documentation on benchmark methodology and detailed guides.
+
+- **/data/**: Includes scripts that load from s3 or generate datasets required for running benchmarks.
+- **/tools/**: Automation and utility scripts to facilitate benchmarking processes.
+- **/SQL/**: Contains benchmark queries, organized by benchmark type.
 
 ## Contributing
 

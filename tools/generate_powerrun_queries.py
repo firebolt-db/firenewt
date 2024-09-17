@@ -1737,7 +1737,7 @@ def main():
     )
     cursor = connection.cursor()
     # query_start_ts,query_end_ts,query_id,query_text
-    with open(r"data_app_new.csv", "w") as f1:
+    with open(r"firenewt_powerrun.csv", "w") as f1:
         writer = csv.writer(
             f1,
             delimiter=",",
